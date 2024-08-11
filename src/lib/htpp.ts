@@ -3,14 +3,14 @@ import { QueryClient } from "react-query";
 import { Shelter } from "./types";
 import api from "./api";
 
-export const baseURL = "http://localhost:3000/";
+export const baseURL = "http://localhost:3000/api/";
 
 export const queryClient = new QueryClient();
 
 export async function getShelters() {
   let shelters;
   try {
-    const response = await api.get(baseURL + "shelters");
+    const response = await api.get("shelters");
     shelters = response.data;
   } catch (error) {
     console.error("getShelters : error fetching shelters", error);
