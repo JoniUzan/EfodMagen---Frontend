@@ -2,7 +2,7 @@ import React from 'react';
 
 function Register() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-r from-black via-gray-800 to-red-700 flex items-center justify-center">
+    <div className="relative min-h-screen bg-gradient-to-r from-red-600 to-black flex items-center justify-center">
       <div className="absolute p-8 bg-white shadow-lg rounded-lg border border-gray-300 w-full max-w-md">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Register</h2>
         <form className="space-y-4">

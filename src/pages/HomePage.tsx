@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BgImage from "../images/BackGroundImage.jpeg";
@@ -7,6 +6,7 @@ import Loading from "../components/SelfMade/Loading";
 import FirstGIF from "../images/location.gif";
 import SecondGIF from "../images/user.gif";
 import ThirdGIF from "../images/around-the-world.gif";
+import Map from "../components/googleMaps/Map";
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,6 @@ function HomePage() {
       setIsLoading(false);
     }, 1000);
 
-    // Clean up the timer if the component unmounts
     return () => clearTimeout(timer);
   }, []);
 
@@ -43,7 +42,7 @@ function HomePage() {
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 bg-center bg-cover"
-          style={{ backgroundImage: `url(${BgImage})`, opacity: 0.7 }}
+          style={{ backgroundImage: `url(${BgImage})`, opacity: 0.9 }} // Increased opacity
         ></motion.div>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-12">
@@ -73,23 +72,15 @@ function HomePage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 1.1, duration: 0.5 }}
-              className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4"
+              className="flex flex-col items-center space-y-4"
             >
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href="/about"
-                className="bg-primary text-2xl sm:text-4xl text-primary-foreground hover:bg-primary/90 px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition duration-300 ease-in-out font-semibold"
-              >
-                Learn More
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 href="/shelters"
-                className="bg-red-500 text-2xl sm:text-4xl text-primary hover:bg-red-900 px-6 sm:px-8 py-3 sm:py-4 rounded-full transition duration-300 ease-in-out  font-semibold"
+                className="bg-blue-500 text-2xl sm:text-4xl text-white hover:bg-blue-700 px-6 sm:px-8 py-3 sm:py-4 rounded-full transition duration-300 ease-in-out font-semibold"
               >
-                Find Shelter
+                Add Shelter
               </motion.a>
             </motion.div>
           </motion.div>
@@ -214,45 +205,57 @@ function HomePage() {
         </div>
       </motion.section>
 
+      {/* Shelters Section */}
+
+
+      <div className="relative p-6 mx-auto max-w-full ">
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="text-center text-6xl font-extrabold text-red-900 my-6"
+        >
+          All Shelters In Israel
+        </motion.h1>
+        <div className="bg-gray-100 rounded-lg shadow-lg overflow-hidden m-auto max-w-[750px] p-6 my-5 ">
+
+          <Map />
+        </div>
+      </div>
+
       {/* Call to Action Section */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         className="relative bg-cover bg-center py-12 sm:py-24 text-white overflow-hidden"
+        style={{ backgroundImage: `url(${CallForActionImage})` }}
       >
-        <motion.div
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0 bg-center bg-cover"
-          style={{ backgroundImage: `url(${CallForActionImage})`, opacity: 0.5 }}
-        ></motion.div>
-        <div className="absolute inset-0 bg-black opacity-60"></div>
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 text-center">
+        <div className="absolute inset-0 bg-black opacity-40"></div>
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-12 text-center">
           <motion.h2
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 sm:mb-8 leading-tight"
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6"
           >
-            Ready to Find Safe Shelters?
+            Ready to Make a Difference?
           </motion.h2>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 leading-relaxed"
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="text-lg sm:text-xl mb-8"
           >
-            Download EfodMagen today and get instant access to the nearest shelters whenever you need them.
+            Join us in ensuring safety and support for those in need. Contribute by adding shelters or spreading the word about EfodMagen.
           </motion.p>
           <motion.a
-            whileHover={{ scale: 1.05, backgroundColor: '#ff0000' }} // Adjust hover color
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="/download"
-            className="bg-primary text-white hover:bg-primary-dark px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg transition duration-300 ease-in-out text-base sm:text-lg font-semibold"
+            href="/contribute"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-300"
           >
-            Download Now
+            Contribute Now
           </motion.a>
         </div>
       </motion.section>

@@ -6,10 +6,9 @@ import {
   Pin,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-
-import { googleApiKey } from "@/lib/googleApiKey";
 import { useShelters } from "@/context/ShelterProvider";
 import SheltersPoint from "./SheltersPoints";
+import { googleApiKey } from "@/lib/googleApiKey";
 
 export default function Intro() {
   const { shelters } = useShelters();
@@ -21,7 +20,6 @@ export default function Intro() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // Get the user's current location
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setPosition({
@@ -31,34 +29,42 @@ export default function Intro() {
       },
       (error) => {
         console.error("Error getting location: ", error);
-        // Fallback to a default location if geolocation fails
         setPosition({ lat: 32.109333, lng: 34.855499 });
       }
     );
   }, []);
 
   if (!position) {
-    // Optionally, you can return a loading indicator while the location is being fetched
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-lg text-gray-600">Loading map...</div>
+      </div>
+    );
   }
 
   return (
     <APIProvider apiKey={googleApiKey}>
-      <div style={{ height: "80vh", width: "80%" }}>
+      <div className="relative h-[80vh] w-[80%] mx-auto rounded-lg shadow-lg overflow-hidden">
         <Map
           defaultZoom={13}
           defaultCenter={position}
           mapId={"aa21e74a7cd52a60"}
           fullscreenControl={false}
+          className="h-full w-full"
         >
           <AdvancedMarker position={position} onClick={() => setOpen(true)}>
-            <Pin />
+            <Pin background={"#ffa500"} />
+            {/* Blue color pin */}
           </AdvancedMarker>
           {open && (
             <InfoWindow
               position={position}
               onCloseClick={() => setOpen(false)}
-            ></InfoWindow>
+            >
+              <div className="text-sm">
+                You are here
+              </div>
+            </InfoWindow>
           )}
           <SheltersPoint points={shelters} />
         </Map>

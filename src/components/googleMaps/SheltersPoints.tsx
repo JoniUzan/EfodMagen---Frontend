@@ -1,5 +1,4 @@
 import { AdvancedMarker, InfoWindow, Pin } from "@vis.gl/react-google-maps";
-
 import { useState } from "react";
 import Directions from "./Directions";
 import { Point } from "@/lib/types";
@@ -9,6 +8,13 @@ export type Props = { points: Point[] };
 export default function SheltersPoint({ points }: Props) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [destination, setDestination] = useState<Point | null>(null);
+  const [showDirections, setShowDirections] = useState(true);
+
+  const handleNavigate = (point: Point) => {
+    setDestination(point);
+    setShowDirections(true);
+    setOpenId(null); // Close the InfoWindow when navigating
+  };
 
   return (
     <>
@@ -31,9 +37,12 @@ export default function SheltersPoint({ points }: Props) {
                 position={position}
                 onCloseClick={() => setOpenId(null)}
               >
-                <div>
-                  <p>{point.address}</p>
-                  <button onClick={() => setDestination(point)}>
+                <div className="p-2 text-sm text-gray-800">
+                  <p className="mb-2 font-semibold">{point.address}</p>
+                  <button
+                    onClick={() => handleNavigate(point)}
+                    className="w-full bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                  >
                     Navigate
                   </button>
                 </div>
@@ -43,7 +52,12 @@ export default function SheltersPoint({ points }: Props) {
         );
       })}
 
-      {destination && <Directions destination={destination} />}
+      {destination && showDirections && (
+        <Directions
+          destination={destination}
+          onClose={() => setShowDirections(false)} // Close Directions on navigate
+        />
+      )}
     </>
   );
 }
