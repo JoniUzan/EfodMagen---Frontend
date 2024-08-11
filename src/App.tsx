@@ -1,7 +1,7 @@
 import { useAuth } from "./context/AuthProvider";
 import "./index.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+
 import MainLayout from "./layouts/MainLayout";
 import FindShelter from "./pages/FindShelter";
 import SheltersDetails from "./pages/SheltersDetails";
@@ -11,7 +11,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyShelters from "./pages/MyShelters";
 import Profile from "./pages/Profile";
+
 import { useShelters } from "./context/ShelterProvider";
+
+import HomePage from "./pages/HomePage";
+
 
 // Protected
 function RequireAuth({ children }: { children: React.ReactNode }) {
