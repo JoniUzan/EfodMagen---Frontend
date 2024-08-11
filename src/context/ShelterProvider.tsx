@@ -13,6 +13,8 @@ interface SheltersContext {
 const sheltersContext = createContext<SheltersContext | undefined>(undefined);
 
 export function SheltersProvider({ children }: { children: ReactNode }) {
+ 
+ 
   const {
     data: shelters,
     isLoading: sheltersLoading,
