@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyShelters from "./pages/MyShelters";
 import Profile from "./pages/Profile";
+import { useShelters } from "./context/ShelterProvider";
 
 // Protected
 function RequireAuth({ children }: { children: React.ReactNode }) {
@@ -42,6 +43,12 @@ function RequireUnAuth({ children }: { children: React.ReactNode }) {
   return children;
 }
 function App() {
+  const { shelters } = useShelters();
+
+  if (shelters) {
+    console.log(shelters);
+  }
+
   return (
     <>
       <Routes>

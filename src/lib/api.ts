@@ -9,9 +9,7 @@ export const api = axios.create({
     (config) => {
       let token = localStorage.getItem("token");
       if (token) {
-        // removing the first and last character of the token, which are quotes
-  
-        // token = token?.slice(1, -1);
+      
   
         config.headers.Authorization = `Bearer ${token}`;
       }
