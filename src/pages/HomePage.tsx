@@ -219,7 +219,7 @@ function HomePage() {
         </motion.h1>
         <div className="bg-gray-100 rounded-lg shadow-lg overflow-hidden m-auto max-w-[750px] p-6 my-5 ">
 
-          <Map />
+          {/* <Map /> */}
         </div>
       </div>
 
@@ -237,29 +237,22 @@ function HomePage() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6"
+            className="text-3xl mb-12 sm:text-4xl md:text-5xl font-extrabold "
           >
-            Ready to Make a Difference?
-          </motion.h2>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-lg sm:text-xl mb-8"
-          >
-            Join us in ensuring safety and support for those in need. Contribute by adding shelters or spreading the word about EfodMagen.
-          </motion.p>
+            Want Fast Access During An EMERGENCY?          </motion.h2>
+
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="/contribute"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition duration-300"
+            className="bg-red-500 hover:bg-red-700 text-white font-semibold px-12 py-6 text-2xl  rounded-full transition duration-300 "
           >
-            Contribute Now
+            Regsiter Now
           </motion.a>
         </div>
+
       </motion.section>
-    </motion.div>
+    </motion.div >
   );
 }
 
