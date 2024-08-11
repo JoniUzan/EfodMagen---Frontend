@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           logout();
         } else {
           console.error("Error fetching user data:", error);
+          logout();// delete in futher process
         }
       }
     }
@@ -69,6 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   //Logout finction
+  
   function logout() {
     localStorage.removeItem("token");
     setLoggedInUser(null);
