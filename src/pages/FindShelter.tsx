@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Map from '../components/googleMaps/Map.tsx';
-import SheltersMap from '@/components/googleMaps/SheltersMap.tsx';
 
 function FindShelter() {
   const [name, setName] = useState('');
@@ -106,7 +105,7 @@ function FindShelter() {
           </button>
         </form>
       </section>
-      <SheltersMap/>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-4 sm:py-6">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
@@ -122,7 +121,5 @@ function FindShelter() {
     </div>
   );
 }
-
-
 
 export default FindShelter;

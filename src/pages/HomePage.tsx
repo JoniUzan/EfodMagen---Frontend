@@ -6,7 +6,7 @@ import Loading from "../components/SelfMade/Loading";
 import FirstGIF from "../images/location.gif";
 import SecondGIF from "../images/user.gif";
 import ThirdGIF from "../images/around-the-world.gif";
-import Map from "../components/googleMaps/SheltersMap";
+import Map from "../components/googleMaps/Map";
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
