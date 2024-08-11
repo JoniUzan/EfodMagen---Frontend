@@ -1,9 +1,11 @@
-import React from 'react'
+import SheltersMap from "@/components/googleMaps/SheltersMap";
+
+
 
 function FindShelter() {
   return (
-    <div>FindShelter</div>
-  )
+   <SheltersMap/>
+  );
 }
 
-export default FindShelter
+export default FindShelter;

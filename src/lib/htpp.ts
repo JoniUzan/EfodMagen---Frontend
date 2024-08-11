@@ -1,5 +1,6 @@
-import { QueryClient } from "react-query";
+// http.js
 
+import { QueryClient } from "react-query";
 import { Shelter } from "./types";
 import api from "./api";
 
@@ -20,6 +21,24 @@ export async function getShelters() {
   }
 }
 
+export async function getClosestShelters(lat: number, lng: number) {
+  let shelters;
+  try {
+    const response = await api.get("shelters/closest-shelters", {
+      params: { lat, lng },
+    });
+    shelters = response.data;
+  } catch (error) {
+    console.error(
+      "getClosestShelters : error fetching closest shelters",
+      error
+    );
+  }
+  if (shelters) {
+    return shelters;
+  }
+}
+
 export async function updateShelters({
   updatedShelter,
 }: {
@@ -27,7 +46,7 @@ export async function updateShelters({
 }) {
   try {
     await api.patch(`${baseURL}shelters/${updatedShelter._id}`, updatedShelter);
-    console.log("updateShelters: shelter updatetd successfully");
+    console.log("updateShelters: shelter updated successfully");
   } catch (error) {
     console.error(
       "updateShelters: error while trying to update shelter ",
