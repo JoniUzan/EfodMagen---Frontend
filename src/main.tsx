@@ -4,8 +4,8 @@ import App from "./App.tsx";
 import "./index.css";
 import { Toaster } from "./components/ui/toaster.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "./context/AuthProvider.tsx";
-import { SheltersProvider } from "./context/ShelterProvider.tsx";
+import { AuthProvider } from "./components/context/AuthProvider.tsx";
+import { SheltersProvider } from "./components/context/ShelterProvider.tsx";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./lib/htpp.ts";
 
