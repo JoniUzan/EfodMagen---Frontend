@@ -1,4 +1,4 @@
-import { useAuth } from "./components/context/AuthProvider";
+import { useAuth } from "./context/AuthProvider";
 import "./index.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -12,7 +12,7 @@ import Register from "./pages/Register";
 import MyShelters from "./pages/MyShelters";
 import Profile from "./pages/Profile";
 
-import { useShelters } from "./components/context/ShelterProvider";
+import { useShelters } from "./context/ShelterProvider";
 
 import HomePage from "./pages/HomePage";
 
