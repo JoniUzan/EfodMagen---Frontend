@@ -1,12 +1,35 @@
+import { useAuth } from "@/context/AuthProvider";
 
 function Login() {
+  const { login } = useAuth();
+
+  function loginHandler(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+    
+    // Extract the values from the form fields
+    const formData = new FormData(ev.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+  
+    // Call the login function with the extracted values
+    login({ email, password });
+  }
+  
+
   return (
     <div className="relative min-h-screen bg-gradient-to-r from-black to-red-600 flex items-center justify-center">
       <div className="absolute p-8 bg-white shadow-lg rounded-lg border border-gray-300 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">Login</h2>
-        <form className="space-y-4">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">
+          Login
+        </h2>
+        <form onSubmit={loginHandler} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -17,7 +40,12 @@ function Login() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -35,7 +63,7 @@ function Login() {
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <a href="/auth/register" className="text-red-500 hover:underline">
             Register here
           </a>

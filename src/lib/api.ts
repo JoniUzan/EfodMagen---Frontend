@@ -1,21 +1,25 @@
 import axios from "axios";
 
-export const api = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production" ? "/api" : "//localhost:3000/api",
-  });
-  
-  api.interceptors.request.use(
-    (config) => {
-      let token = localStorage.getItem("token");
-      if (token) {
-      
-  
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
+const api = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "production" ? "/api" : "//localhost:3000/api",
+});
+
+api.interceptors.request.use(
+  config => {
+    let token = localStorage.getItem("token") || null;
+    // removing the first and last character of the token, which are quotes
+
+    if (token) {
+      token = token?.slice(1, -1);
+      config.headers.Authorization = `Bearer ${token}`;
     }
-  );
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+export default api;
