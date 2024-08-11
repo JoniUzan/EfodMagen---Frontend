@@ -1,9 +1,9 @@
-import { Point } from "@/lib/types";
+import { Shelter } from "@/lib/types";
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
 type DirectionsProps = {
-  destination: Point;
+  destination: Shelter;
   onClose: () => void;
 };
 
@@ -47,8 +47,8 @@ function Directions({ destination, onClose }: DirectionsProps) {
         };
 
         const destinationCoordinates = {
-          lat: destination.coordinates.latitude,
-          lng: destination.coordinates.longitude,
+          lat: destination.location.coordinates[1],
+          lng: destination.location.coordinates[0]
         };
 
         directionService
@@ -62,7 +62,10 @@ function Directions({ destination, onClose }: DirectionsProps) {
             setRoutes(response.routes);
             // Render each route with its own color
             response.routes.forEach((route, index) => {
-              const color = index === routeIndex ? "#FF0000" : `hsl(${(index + 1) * 30}, 70%, 70%)`; // Different colors for different routes
+              const color =
+                index === routeIndex
+                  ? "#FF0000"
+                  : `hsl(${(index + 1) * 30}, 70%, 70%)`; // Different colors for different routes
               const polyline = new google.maps.Polyline({
                 path: route.overview_path,
                 strokeColor: color,
@@ -88,9 +91,14 @@ function Directions({ destination, onClose }: DirectionsProps) {
   if (!leg) return null;
 
   return (
-    <div className="absolute top-4 right-4 bg-gray-800 bg-opacity-90 p-2 sm:p-3 rounded-lg shadow-lg z-50 max-w-xs sm:max-w-sm" style={{ width: '250px' }}>
+    <div
+      className="absolute top-4 right-4 bg-gray-800 bg-opacity-90 p-2 sm:p-3 rounded-lg shadow-lg z-50 max-w-xs sm:max-w-sm"
+      style={{ width: "250px" }}
+    >
       <div className="text-white text-sm sm:text-base">
-        <h2 className="text-base sm:text-lg font-bold mb-1">{selected.summary}</h2>
+        <h2 className="text-base sm:text-lg font-bold mb-1">
+          {selected.summary}
+        </h2>
         <p className="mb-1">
           {leg.start_address.split(",")[0]} to {leg.end_address.split(",")[0]}
         </p>
@@ -103,9 +111,10 @@ function Directions({ destination, onClose }: DirectionsProps) {
               <button
                 onClick={() => setRouteIndex(index)}
                 className={`w-full text-left px-2 py-1 rounded-lg transition duration-200 
-                  ${routeIndex === index
-                    ? "bg-red-500 text-white"
-                    : "bg-gray-600 text-gray-300 hover:bg-primary/80 hover:text-white"
+                  ${
+                    routeIndex === index
+                      ? "bg-red-500 text-white"
+                      : "bg-gray-600 text-gray-300 hover:bg-primary/80 hover:text-white"
                   }`}
               >
                 {route.summary}
