@@ -6,7 +6,7 @@ import {
   Pin,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-import { useShelters } from "@/context/ShelterProvider";
+import { useShelters } from "@/components/context/ShelterProvider";
 import SheltersPoint from "./SheltersPoints";
 import { googleApiKey } from "@/lib/googleApiKey";
 
