@@ -1,35 +1,27 @@
 import { AdvancedMarker, InfoWindow, Pin } from "@vis.gl/react-google-maps";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Directions from "./Directions";
-import { Shelter } from "@/lib/types";
+import { Point } from "@/lib/types";
 
-export type Props = {
-  points: Shelter[];
-  setShowDirections: Dispatch<SetStateAction<boolean>>;
-  showDirections: boolean;
-  openId: string | null;
-  setOpenId: Dispatch<SetStateAction<string | null>>;
-  destination: Shelter | null;
-  setDestination: Dispatch<SetStateAction<Shelter | null>>;
-  handleNavigate: (point: Shelter) => void;
-};
+export type Props = { points: Point[] };
 
-export default function SheltersPoint({
-  points,
-  openId,
-  setOpenId,
-  destination,
-  showDirections,
-  setShowDirections,
-  setDestination,
-  handleNavigate,
-}: Props) {
+export default function SheltersPoint({ points }: Props) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [destination, setDestination] = useState<Point | null>(null);
+  const [showDirections, setShowDirections] = useState(true);
+
+  const handleNavigate = (point: Point) => {
+    setDestination(point);
+    setShowDirections(true);
+    setOpenId(null); // Close the InfoWindow when navigating
+  };
+
   return (
     <>
       {points.map((point) => {
         const position = {
-          lat: point.location.coordinates[1],
-          lng: point.location.coordinates[0],
+          lat: point.coordinates.latitude,
+          lng: point.coordinates.longitude,
         };
 
         return (
