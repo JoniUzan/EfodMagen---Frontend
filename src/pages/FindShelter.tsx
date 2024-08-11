@@ -1,7 +1,7 @@
-import SheltersMap from "@/components/googleMaps/SheltersMap";
 import { useState } from 'react';
 import axios from 'axios';
 import Map from '../components/googleMaps/Map.tsx';
+import SheltersMap from '@/components/googleMaps/SheltersMap.tsx';
 
 function FindShelter() {
   const [name, setName] = useState('');
@@ -123,5 +123,7 @@ function FindShelter() {
     </div>
   );
 }
+
+
 
 export default FindShelter;
