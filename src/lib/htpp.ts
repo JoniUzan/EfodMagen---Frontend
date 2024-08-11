@@ -1,8 +1,9 @@
 import { QueryClient } from "react-query";
-import { api } from "./api";
-import { Shelter } from "./types";
 
-const baseURL = "http://localhost:3000/";
+import { Shelter } from "./types";
+import api from "./api";
+
+export const baseURL = "http://localhost:3000/";
 
 export const queryClient = new QueryClient();
 

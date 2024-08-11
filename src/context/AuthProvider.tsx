@@ -1,36 +1,14 @@
-import { toast } from "@/components/ui/use-toast";
-import { api } from "@/lib/api";
+import { createContext, useState, useEffect, useContext } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { LoginCredentials, RegisterCredentials, User } from "@/lib/types";
+import api from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 
-//Logged in user type
-export interface User {
-  _id: string;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  image?: string;
-}
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-export interface RegisterCredentials {
-  password: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  israeliId: number;
-  address: string;
-}
-
-export interface AuthContextType {
+interface AuthContextType {
   loggedInUser: User | null | undefined;
-  login: (userData: LoginCredentials) => Promise<void>;
-  register: (userData: RegisterCredentials) => Promise<void>;
+  login: (user: LoginCredentials) => Promise<void>;
+  register: (user: RegisterCredentials) => Promise<void>;
   logout: () => void;
 }
 
@@ -40,18 +18,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>(
     undefined
   );
-
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useLocalStorage("token", null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!token) {
+      setLoggedInUser(null);
+      return;
+    }
+
     async function fetchUser() {
       try {
-        const response = await api.get("/auth/loggedInUser");
-        setLoggedInUser(response.data.user);
-
-        console.log("user :", response.data.user);
+        const response = await api.get("/loggedInUser");
+        setLoggedInUser(response.data);
       } catch (error: any) {
         if (error.response?.status === 401) {
           console.error("Invalid token, logging out");
@@ -61,7 +41,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           logout();
         } else {
           console.error("Error fetching user data:", error);
-          logout();// delete in futher process
         }
       }
     }
@@ -69,48 +48,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, [token]);
 
-  //Logout finction
-  
   function logout() {
-    localStorage.removeItem("token");
+    setToken(null);
     setLoggedInUser(null);
   }
 
-  //Login function
-  async function login(userData: LoginCredentials) {
+  async function login(cred: LoginCredentials) {
     try {
-      const response = await api.post("/auth/login", userData);
-      console.log(response.data.token);
-      localStorage.setItem("token", `${response.data.token}`);
-      console.log("loged in successfully");
-      navigate("/");
+      const response = await api.post("/auth/login", cred);
+      setToken(response.data.token);
     } catch (error) {
-      toast({
-        description: "Error logged in",
-        variant: "destructive",
-      });
       console.error("Error logging in:", error);
+      throw error;
     }
   }
 
-  //Register function
-  async function register(userData: RegisterCredentials) {
+  async function register(cred: RegisterCredentials) {
     try {
-      await api.post("/auth/register", userData);
-      toast({
-        description: "Signed up successfully",
-        style: {
-          backgroundColor: "lightgreen",
-        },
-      });
-      console.log("registered successfully");
-      navigate("/auth/SignIn");
+      await api.post("/auth/register", cred);
+      navigate("auth/login");
     } catch (error) {
-      toast({
-        description: "Error signing up",
-        variant: "destructive",
-      });
       console.error("Error registering:", error);
+      throw error;
     }
   }
 
