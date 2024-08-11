@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           logout();
         } else {
           console.error("Error fetching user data:", error);
+          logout();// delete in futher process
         }
       }
     }

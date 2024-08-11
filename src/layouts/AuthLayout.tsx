@@ -1,9 +1,15 @@
-import React from 'react'
+
+import { Link, Outlet } from "react-router-dom";
 
 function AuthLayout() {
   return (
-    <div>AuthLayout</div>
-  )
+    <div>
+      {/* <Link to={"/"}>
+      
+      </Link> */}
+      <Outlet />
+    </div>
+  );
 }
 
-export default AuthLayout
+export default AuthLayout;
