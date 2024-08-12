@@ -1,5 +1,3 @@
-
-
 ///// Google Maps /////
 export type Shelter = {
   address: string;
@@ -16,11 +14,11 @@ export type Shelter = {
 ////// Auth Provider //////
 export interface User {
   _id: string;
-  username: string;
   email: string;
   firstName: string;
   lastName: string;
   image?: string;
+  saved_shelters: string[];
 }
 
 export interface LoginCredentials {
