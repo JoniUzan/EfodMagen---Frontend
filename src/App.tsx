@@ -48,9 +48,9 @@ function RequireUnAuth({ children }: { children: React.ReactNode }) {
 function App() {
   const { shelters } = useShelters();
 
-  if (shelters) {
-    console.log(shelters);
-  }
+  // if (shelters) {
+  //   console.log(shelters);
+  // }
 
   return (
     <>
@@ -62,6 +62,14 @@ function App() {
             element={
               <RequireAuth>
                 <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="saved"
+            element={
+              <RequireAuth>
+                <MyShelters />
               </RequireAuth>
             }
           />
@@ -87,14 +95,6 @@ function App() {
               element={
                 <RequireAuth>
                   <AddShelter />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="saved"
-              element={
-                <RequireAuth>
-                  <MyShelters />
                 </RequireAuth>
               }
             />

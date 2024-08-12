@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Directions from "./Directions";
 import { Shelter } from "@/lib/types";
 import { FaSave } from "react-icons/fa"; // Import the save icon from React Icons
+import { useMutation } from "react-query";
+import { toggleSavedShelter } from "@/lib/htpp";
 
 export type Props = {
   points: Shelter[];
@@ -26,6 +28,21 @@ export default function SheltersPoint({
   setDestination,
   handleNavigate,
 }: Props) {
+  const { mutate } = useMutation({
+    mutationFn: toggleSavedShelter,
+    onSuccess: (data) => {
+      console.log("Shelter toggled successfully", data);
+      // Optionally update local state or refetch queries if necessary
+    },
+    onError: (error) => {
+      console.error("Error toggling shelter save status", error);
+    },
+  });
+
+  function toggelSave(point: Shelter) {
+    mutate(point._id);
+  }
+
   return (
     <>
       {points.map((point) => {
@@ -49,7 +66,7 @@ export default function SheltersPoint({
               >
                 <div className="p-2 text-sm text-gray-800">
                   <button
-                    onClick={() => handleNavigate(point)}
+                    onClick={() => toggelSave(point)}
                     className="w-8 relative bottom-3 mt-6 bg-green-600 text-white font-bold py-2 rounded-lg m-auto hover:bg-green-700 transition duration-300 flex items-center justify-center space-x-2"
                   >
                     <FaSave className="w-5 h-5" aria-hidden="true" />{" "}

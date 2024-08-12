@@ -1,8 +1,6 @@
-// http.js
-
 import { QueryClient } from "react-query";
-import { Shelter } from "./types";
 import api from "./api";
+import { Shelter } from "./types";
 
 export const baseURL = "http://localhost:3000/api/";
 
@@ -52,5 +50,30 @@ export async function updateShelters({
       "updateShelters: error while trying to update shelter ",
       error
     );
+  }
+}
+
+// New function to get the user's saved shelters
+export async function getUserShelters() {
+  let shelters;
+  try {
+    const response = await api.get(`/shelters/user-shelters`);
+    shelters = response.data;
+  } catch (error) {
+    console.error("getUserShelters : error fetching user's shelters", error);
+  }
+  if (shelters) {
+    return shelters;
+  }
+}
+
+
+export async function toggleSavedShelter(shelterId:string) {
+  try {
+    const response = await api.post('/shelters/save-shelter', { shelterId });
+    return response.data;
+  } catch (error) {
+    console.error('Error toggling shelter save status', error);
+    throw error;
   }
 }
