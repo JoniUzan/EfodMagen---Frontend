@@ -11,6 +11,7 @@ export type Shelter = {
   notes: string;
   accessibility: boolean;
   _id: string;
+  IsPrivate: boolean;
 };
 
 ////// Auth Provider //////
