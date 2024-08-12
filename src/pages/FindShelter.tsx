@@ -22,8 +22,8 @@ function FindShelter() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
-  const [shelters, setShelters] = useState<Shelter[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [setShelters] = useState<Shelter[]>([]);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchShelters() {
@@ -330,7 +330,7 @@ function FindShelter() {
         </div>
       </Dialog>
 
-      <SheltersMap shelters={shelters} />
+      <SheltersMap  />
     </>
   );
 }

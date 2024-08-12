@@ -1,8 +1,9 @@
 import { getUserShelters, toggleSavedShelter } from "@/lib/htpp";
-import React from "react";
+
 import { useQuery, useMutation } from "react-query";
 import { motion } from "framer-motion";
 import { FaSave } from "react-icons/fa"; // Import the save icon from React Icons
+import { Shelter } from "@/lib/types";
 
 function MyShelters() {
   const {
@@ -34,7 +35,7 @@ function MyShelters() {
     );
   }
 
-  if (isError) {
+  if (isError as any) {
     return (
       <div className="text-red-600 text-center mt-4">
         Error: {error.message}
@@ -50,7 +51,7 @@ function MyShelters() {
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: (index) => ({
+    visible: (index:number) => ({
       opacity: 1,
       y: 0,
       transition: {
@@ -61,7 +62,7 @@ function MyShelters() {
     }),
   };
 
-  function toggleSave(shelterId) {
+  function toggleSave(shelterId:string) {
     mutate(shelterId);
   }
 
@@ -71,7 +72,7 @@ function MyShelters() {
         My Saved Shelters
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {shelters.map((shelter, index) => (
+        {shelters.map((shelter:Shelter, index:number) => (
           <motion.div
             key={shelter._id}
             className="bg-white border p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
