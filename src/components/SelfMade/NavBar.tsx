@@ -41,7 +41,7 @@ function NavBar() {
                     <li><Link to="/auth/login" className="block text-lg hover:text-gray-200 transition-colors duration-300 text-center" onClick={closeMenu}>Login</Link></li>
                     <li><Link to="/shelters" className="block text-lg hover:text-gray-200 transition-colors duration-300 text-center" onClick={closeMenu}>Find a Shelter</Link></li>
                     <li><Link to="/profile" className="block text-lg hover:text-gray-200 transition-colors duration-300 text-center" onClick={closeMenu}>Profile</Link></li>
-                    <li><Link to="/shelters/saved" className="block text-lg hover:text-gray-200 transition-colors duration-300 text-center" onClick={closeMenu}>Saved Shelters</Link></li>
+                    <li><Link to="/saved" className="block text-lg hover:text-gray-200 transition-colors duration-300 text-center" onClick={closeMenu}>Saved Shelters</Link></li>
                 </ul>
             </div>
         </nav>

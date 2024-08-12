@@ -1,9 +1,13 @@
 import { AdvancedMarker, InfoWindow, Pin } from "@vis.gl/react-google-maps";
 import { Dispatch, SetStateAction, useState } from "react";
+
 import Directions from "./Directions";
 import { Shelter } from "@/lib/types";
-import { FaSave, FaEdit } from 'react-icons/fa';
-import { useShelters} from "@/context/ShelterProvider";
+
+import { FaSave } from "react-icons/fa"; // Import the save icon from React Icons
+import { useMutation } from "react-query";
+import { toggleSavedShelter } from "@/lib/htpp";
+
 
 export type Props = {
   points: Shelter[];
@@ -28,6 +32,7 @@ export default function SheltersPoint({
   handleNavigate,
   setPoints,
 }: Props) {
+
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [updatedShelter, setUpdatedShelter] = useState<Shelter | null>(null);
@@ -64,6 +69,22 @@ export default function SheltersPoint({
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: toggleSavedShelter,
+    onSuccess: (data) => {
+      console.log("Shelter toggled successfully", data);
+      // Optionally update local state or refetch queries if necessary
+    },
+    onError: (error) => {
+      console.error("Error toggling shelter save status", error);
+    },
+  });
+
+  function toggelSave(point: Shelter) {
+    mutate(point._id);
+  }
+
+
   return (
     <>
       {points.map((point) => {
@@ -86,6 +107,7 @@ export default function SheltersPoint({
                 onCloseClick={() => setOpenId(null)}
               >
                 <div className="p-2 text-sm text-gray-800">
+
                   <div className="flex justify-between mb-2">
                     <button
                       onClick={() => handleEdit(point)}
@@ -102,6 +124,16 @@ export default function SheltersPoint({
                       <span>Save</span>
                     </button>
                   </div>
+
+                  <button
+                    onClick={() => toggelSave(point)}
+                    className="w-8 relative bottom-3 mt-6 bg-green-600 text-white font-bold py-2 rounded-lg m-auto hover:bg-green-700 transition duration-300 flex items-center justify-center space-x-2"
+                  >
+                    <FaSave className="w-5 h-5" aria-hidden="true" />{" "}
+                    {/* Add the icon */}
+                    {/* Button text */}
+                  </button>
+
                   <p className="mb-2 font-semibold">{point.address}</p>
                   <button
                     onClick={() => handleNavigate(point)}

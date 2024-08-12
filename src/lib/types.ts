@@ -37,3 +37,17 @@ export interface RegisterCredentials {
   israeli_ID: number;
   address: string;
 }
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  password: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  israeli_ID: number;
+  address: string;
+}

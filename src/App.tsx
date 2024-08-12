@@ -16,7 +16,6 @@ import { useShelters } from "./context/ShelterProvider";
 
 import HomePage from "./pages/HomePage";
 
-
 // Protected
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { loggedInUser } = useAuth();
@@ -49,15 +48,31 @@ function RequireUnAuth({ children }: { children: React.ReactNode }) {
 function App() {
   const { shelters } = useShelters();
 
-  if (shelters) {
-    console.log(shelters);
-  }
+  // if (shelters) {
+  //   console.log(shelters);
+  // }
 
   return (
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route
+            path="profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="saved"
+            element={
+              <RequireAuth>
+                <MyShelters />
+              </RequireAuth>
+            }
+          />
 
           <Route
             path="shelters"
@@ -80,22 +95,6 @@ function App() {
               element={
                 <RequireAuth>
                   <AddShelter />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="saved"
-              element={
-                <RequireAuth>
-                  <MyShelters />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="profile"
-              element={
-                <RequireAuth>
-                  <Profile />
                 </RequireAuth>
               }
             />
