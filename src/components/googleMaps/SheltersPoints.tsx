@@ -2,6 +2,8 @@ import { AdvancedMarker, InfoWindow, Pin } from "@vis.gl/react-google-maps";
 import { Dispatch, SetStateAction, useState } from "react";
 import Directions from "./Directions";
 import { Shelter } from "@/lib/types";
+import { FaSave } from 'react-icons/fa'; // Import the save icon from React Icons
+
 
 export type Props = {
   points: Shelter[];
@@ -46,6 +48,13 @@ export default function SheltersPoint({
                 onCloseClick={() => setOpenId(null)}
               >
                 <div className="p-2 text-sm text-gray-800">
+                  <button
+                    onClick={() => handleNavigate(point)}
+                    className="w-8 relative bottom-3 mt-6 bg-green-600 text-white font-bold py-2 rounded-lg m-auto hover:bg-green-700 transition duration-300 flex items-center justify-center space-x-2"
+                  >
+                    <FaSave className="w-5 h-5" aria-hidden="true" /> {/* Add the icon */}
+                    {/* Button text */}
+                  </button>
                   <p className="mb-2 font-semibold">{point.address}</p>
                   <button
                     onClick={() => handleNavigate(point)}
