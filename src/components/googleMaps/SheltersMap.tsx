@@ -18,6 +18,7 @@ export default function SheltersMap() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [destination, setDestination] = useState<Shelter | null>(null);
   const [showDirections, setShowDirections] = useState(true);
+  const [sheltersState, setShelters] = useState<Shelter[]>([]);
 
   const [position, setPosition] = useState<{
     lat: number;
@@ -55,10 +56,11 @@ export default function SheltersMap() {
   }
 
   return (
-    <>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 mb-8">
       <ColosestShelters handleNavigate={handleNavigate} />
       <APIProvider apiKey={googleApiKey}>
-        <div className="relative h-[80vh] w-[80%] mx-auto rounded-lg shadow-lg overflow-hidden">
+        <div className="relative h-[640px] lg:h-full w-full mx-auto rounded-lg shadow-lg overflow-hidden">
+
           <Map
             defaultZoom={13}
             defaultCenter={position}
@@ -68,7 +70,6 @@ export default function SheltersMap() {
           >
             <AdvancedMarker position={position} onClick={() => setOpen(true)}>
               <Pin background={"#ffa500"} />
-              {/* Blue color pin */}
             </AdvancedMarker>
             {open && (
               <InfoWindow
@@ -88,11 +89,12 @@ export default function SheltersMap() {
                 setDestination={setDestination}
                 setShowDirections={setShowDirections}
                 handleNavigate={handleNavigate}
+                setPoints={setShelters}
               />
             )}
           </Map>
         </div>
       </APIProvider>
-    </>
+    </div>
   );
 }
