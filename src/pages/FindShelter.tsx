@@ -23,20 +23,22 @@ function FindShelter() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [shelters, setShelters] = useState<Shelter[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch shelters when component mounts
     async function fetchShelters() {
       try {
         const response = await api.get("/shelters");
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           setShelters(data);
         } else {
+
           console.error("Failed to fetch shelters");
         }
       } catch (error) {
         console.error("An error occurred:", error);
+
       }
     }
 
@@ -91,38 +93,48 @@ function FindShelter() {
     try {
       let response;
       if (isEditing && selectedShelter) {
+
         // Edit existing shelter
         response = await api.put(
           `/shelters/${selectedShelter._id}`,
           shelterData
         );
+
       } else {
-        // Add new shelter
         response = await api.post("/shelters", shelterData);
       }
 
-      if (response.ok) {
+
+      if (response.status === 200) {
+
+    
         console.log(
           isEditing
             ? "Shelter updated successfully!"
             : "Shelter added successfully!"
         );
+
         closeModal();
-        // Refresh shelters
-        const updatedShelters = await api.get("/shelters");
-        setShelters(updatedShelters.ok ? await updatedShelters.json() : []);
+        const updatedResponse = await api.get("/shelters");
+        if (updatedResponse.status === 200) {
+          setShelters(await updatedResponse.data);
+        }
       } else {
+
         console.error(
           isEditing ? "Failed to update shelter" : "Failed to add shelter"
         );
       }
     } catch (error) {
       console.error("An error occurred:", error);
+
     }
   }
 
   return (
     <>
+      {error && <div className="bg-red-100 text-red-700 p-4 rounded-md">{error}</div>}
+
       <button
         onClick={() => openModal()}
         className="w-full py-2 pt-32 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
@@ -133,7 +145,7 @@ function FindShelter() {
       <Dialog open={isOpen} onClose={closeModal}>
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-white pt-28 rounded-lg shadow-lg max-w-sm w-full mx-auto p-4">
+          <div className="bg-white pt-28 rounded-lg shadow-lg max-w-sm w-full mx-auto p-4">
             <Dialog.Title className="text-lg font-semibold text-gray-900">
               {isEditing ? "Edit Shelter" : "Add New Shelter"}
             </Dialog.Title>
@@ -143,6 +155,28 @@ function FindShelter() {
                 : "Please fill in the details below to add a new shelter."}
             </Dialog.Description>
             <form onSubmit={handleFormSubmit} className="space-y-4">
+
+              {[
+                { id: "address", label: "Address", type: "text" },
+                { id: "capacity", label: "Capacity", type: "number" },
+                { id: "location", label: "Location (longitude,latitude)", type: "text" },
+                { id: "notes", label: "Notes", type: "text" },
+                { id: "contact_name_and_phone_number", label: "Contact Name and Phone Number", type: "text" }
+              ].map(({ id, label, type }) => (
+                <div key={id}>
+                  <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
+                  <input
+                    type={type}
+                    id={id}
+                    name={id}
+                    defaultValue={isEditing ? selectedShelter?.[id as keyof Shelter] as string : ''}
+                    placeholder={`Enter ${label.toLowerCase()}`}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500"
+                    required
+                  />
+                </div>
+              ))}
+
               <div>
                 <label
                   htmlFor="address"
@@ -217,6 +251,7 @@ function FindShelter() {
                   required
                 />
               </div>
+
               <div>
                 <label
                   htmlFor="accessibility"
@@ -251,6 +286,8 @@ function FindShelter() {
                   className="mt-1 block h-4 w-4 text-red-600 border-gray-300 rounded"
                 />
               </div>
+
+
               <div>
                 <label
                   htmlFor="contact_name_and_phone_number"
@@ -272,6 +309,7 @@ function FindShelter() {
                   required
                 />
               </div>
+
               <div className="flex justify-end mt-4">
                 <button
                   type="button"
@@ -288,11 +326,11 @@ function FindShelter() {
                 </button>
               </div>
             </form>
-          </Dialog.Panel>
+          </div>
         </div>
       </Dialog>
 
-      <SheltersMap />
+      <SheltersMap shelters={shelters} />
     </>
   );
 }

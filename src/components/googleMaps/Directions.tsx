@@ -104,17 +104,16 @@ function Directions({ destination, onClose }: DirectionsProps) {
         </p>
         <p className="mb-1">Distance: {leg.distance?.text}</p>
         <p className="mb-3">Duration: {leg.duration?.text}</p>
-        <h3 className="text-sm font-semibold mb-1">Other Routes</h3>
+        <h3 className="text-lg text-center font-semibold mb-1">Other Routes</h3>
         <ul className="space-y-1">
           {routes.map((route, index) => (
             <li key={route.summary}>
               <button
                 onClick={() => setRouteIndex(index)}
                 className={`w-full text-left px-2 py-1 rounded-lg transition duration-200 
-                  ${
-                    routeIndex === index
-                      ? "bg-red-500 text-white"
-                      : "bg-gray-600 text-gray-300 hover:bg-primary/80 hover:text-white"
+                  ${routeIndex === index
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-600 text-gray-300 hover:bg-primary/80 hover:text-white"
                   }`}
               >
                 {route.summary}

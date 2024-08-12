@@ -27,7 +27,7 @@ function ColosestShelters({
   }
 
   return (
-    <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-4 my-6">
+    <div className="min-h-64 w-full mx-auto bg-white shadow-lg rounded-lg p-4 ">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">
         Closest Shelters
       </h2>
